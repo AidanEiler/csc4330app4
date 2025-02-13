@@ -36,7 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
     'Beagle',
   ];
 
-  // Map of breed names to their corresponding image filenames
   final Map<String, String> breedImages = {
     'Labrador Retriever': 'assets/pictures/lab.jpg',
     'German Shepherd': 'assets/pictures/german.jpg',
@@ -45,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     'Beagle': 'assets/pictures/beagle.jpg',
   };
 
-  // Tap counter for each breed
   Map<String, int> breedTapCount = {
     'Labrador Retriever': 0,
     'German Shepherd': 0,
@@ -54,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
     'Beagle': 0,
   };
 
-  // Currently selected breed image
   String? selectedBreedImage;
 
   @override
@@ -78,8 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       setState(() {
                         breedTapCount[breed] = breedTapCount[breed]! + 1;
-                        selectedBreedImage =
-                            breedImages[breed]; // Update selected image
+                        selectedBreedImage = breedImages[breed];
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -120,8 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
-                if (selectedBreedImage !=
-                    null) // Only show if an image is selected
+                if (selectedBreedImage != null)
                   Image.asset(
                     selectedBreedImage!,
                     height: 200,
