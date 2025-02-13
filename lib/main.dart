@@ -76,9 +76,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Text(
-                      breed,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.mic, size: 24), // Microphone icon
+                        const SizedBox(width: 8), // Space between icon and text
+                        Text(
+                          breed,
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -93,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Divider(),  // Optional divider to separate counters
                 const SizedBox(height: 8),
                 Text(
-                  'Bark counter:',
+                  'Tap Counts of All Breeds:',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
@@ -102,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       child: Text(
-                        '$breed: ${breedTapCount[breed]} Barks',
+                        '$breed: ${breedTapCount[breed]} taps',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
