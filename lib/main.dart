@@ -96,17 +96,24 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           const SizedBox(height: 10),
           if (selectedBreedImage != null)
-            Container(
-              padding: const EdgeInsets.all(10),
-              constraints: const BoxConstraints(
-                maxHeight:
-                    400, // I changed this to fit my screen. You might want
-                // to do the same for your vid.
-              ),
-              child: Image.asset(
-                selectedBreedImage!,
-                fit: BoxFit.contain,
-                width: double.infinity,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FullScreenImage(imagePath: selectedBreedImage!),
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                constraints: const BoxConstraints(maxHeight: 300),
+                child: Image.asset(
+                  selectedBreedImage!,
+                  fit: BoxFit.contain,
+                  width: double.infinity,
+                ),
               ),
             ),
           Expanded(
@@ -140,6 +147,29 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FullScreenImage extends StatelessWidget {
+  final String imagePath;
+  const FullScreenImage({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: GestureDetector(
+        onTap: () => Navigator.pop(
+            context), // This image closes by clicking the black area.
+        child: Center(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            width: double.infinity,
+          ),
+        ),
       ),
     );
   }
