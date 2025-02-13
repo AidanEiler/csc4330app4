@@ -63,14 +63,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Expanded(
+          // Dog breed buttons with reduced size
+          SizedBox(
+            height: 200, // Smaller height for buttons section
             child: ListView.builder(
               itemCount: dogBreeds.length,
               itemBuilder: (context, index) {
                 String breed = dogBreeds[index];
                 return Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -79,51 +81,67 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8), // Reduced padding
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: Text(
                       breed,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge, // Smaller font size
                     ),
                   ),
                 );
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const Divider(),
-                const SizedBox(height: 8),
-                Text(
-                  'Bark counter:',
-                  style: Theme.of(context).textTheme.headlineSmall,
+
+          const SizedBox(height: 20),
+
+          // Image Section (now placed in the middle)
+          if (selectedBreedImage != null)
+            Image.asset(
+              selectedBreedImage!,
+              height: 250, // Increased image size
+              width: 250,
+              fit: BoxFit.cover,
+            ),
+
+          const SizedBox(height: 20),
+
+          // Bark counter now at the bottom
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Divider(),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Bark counter:',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    const SizedBox(height: 8),
+                    Column(
+                      children: dogBreeds.map((breed) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            '$breed: ${breedTapCount[breed]} Barks',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                Column(
-                  children: dogBreeds.map((breed) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
-                        '$breed: ${breedTapCount[breed]} Barks',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-                if (selectedBreedImage != null)
-                  Image.asset(
-                    selectedBreedImage!,
-                    height: 200,
-                    width: 200,
-                    fit: BoxFit.cover,
-                  ),
-              ],
+              ),
             ),
           ),
         ],
