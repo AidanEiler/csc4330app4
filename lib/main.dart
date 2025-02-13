@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Shortened list of dog breeds
   final List<String> dogBreeds = [
     'Labrador Retriever',
     'German Shepherd',
@@ -37,7 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
     'Beagle',
   ];
 
-  // Map to track the tap count for each breed
+  final Map<String, String> breedImages = {
+    'Labrador Retriever': 'assets/pictures/lab.jpg',
+    'German Shepherd': 'assets/pictures/german.jpg',
+    'Golden Retriever': 'assets/pictures/golden.jpg',
+    'Bulldog': 'assets/pictures/bull.jpg',
+    'Beagle': 'assets/pictures/beagle.jpg',
+  };
+
   Map<String, int> breedTapCount = {
     'Labrador Retriever': 0,
     'German Shepherd': 0,
@@ -45,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
     'Bulldog': 0,
     'Beagle': 0,
   };
+
+  String? selectedBreedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -55,37 +63,31 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          // List of dog breed buttons
-          Expanded(
+          SizedBox(
+            height: 200,
             child: ListView.builder(
               itemCount: dogBreeds.length,
               itemBuilder: (context, index) {
                 String breed = dogBreeds[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        // Increment the count for the tapped breed
                         breedTapCount[breed] = breedTapCount[breed]! + 1;
+                        selectedBreedImage = breedImages[breed];
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.mic, size: 24), // Microphone icon
-                        const SizedBox(width: 8), // Space between icon and text
-                        Text(
-                          breed,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                      ],
+                    child: Text(
+                      breed,
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                 );
@@ -100,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Divider(),  // Optional divider to separate counters
                 const SizedBox(height: 8),
                 Text(
-                  'Tap Counts of All Breeds:',
+                  'Bark counter:',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
@@ -109,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       child: Text(
-                        '$breed: ${breedTapCount[breed]} taps',
+                        '$breed: ${breedTapCount[breed]} Barks',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
@@ -119,6 +121,29 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FullScreenImage extends StatelessWidget {
+  final String imagePath;
+  const FullScreenImage({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: GestureDetector(
+        onTap: () => Navigator.pop(
+            context), // This image closes by clicking the black area.
+        child: Center(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            width: double.infinity,
+          ),
+        ),
       ),
     );
   }
