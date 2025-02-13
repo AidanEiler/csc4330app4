@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Shortened list of dog breeds
   final List<String> dogBreeds = [
     'Labrador Retriever',
     'German Shepherd',
@@ -37,7 +36,16 @@ class _MyHomePageState extends State<MyHomePage> {
     'Beagle',
   ];
 
-  // Map to track the tap count for each breed
+  // Map of breed names to their corresponding image filenames
+  final Map<String, String> breedImages = {
+    'Labrador Retriever': 'assets/pictures/lab.jpg',
+    'German Shepherd': 'assets/pictures/german.jpg',
+    'Golden Retriever': 'assets/pictures/golden.jpg',
+    'Bulldog': 'assets/pictures/bull.jpg',
+    'Beagle': 'assets/pictures/beagle.jpg',
+  };
+
+  // Tap counter for each breed
   Map<String, int> breedTapCount = {
     'Labrador Retriever': 0,
     'German Shepherd': 0,
@@ -45,6 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
     'Bulldog': 0,
     'Beagle': 0,
   };
+
+  // Currently selected breed image
+  String? selectedBreedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +66,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          // List of dog breed buttons
           Expanded(
             child: ListView.builder(
               itemCount: dogBreeds.length,
               itemBuilder: (context, index) {
                 String breed = dogBreeds[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        // Increment the count for the tapped breed
                         breedTapCount[breed] = breedTapCount[breed]! + 1;
+                        selectedBreedImage =
+                            breedImages[breed]; // Update selected image
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -85,12 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-          // Counter section that shows cumulative tap counts for all breeds
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const Divider(),  // Optional divider to separate counters
+                const Divider(),
                 const SizedBox(height: 8),
                 Text(
                   'Bark counter:',
@@ -108,6 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }).toList(),
                 ),
+                const SizedBox(height: 20),
+                if (selectedBreedImage !=
+                    null) // Only show if an image is selected
+                  Image.asset(
+                    selectedBreedImage!,
+                    height: 200,
+                    width: 200,
+                    fit: BoxFit.cover,
+                  ),
               ],
             ),
           ),
