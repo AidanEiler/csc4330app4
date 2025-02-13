@@ -63,9 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          // Dog breed buttons with reduced size
           SizedBox(
-            height: 200, // Smaller height for buttons section
+            height: 200,
             child: ListView.builder(
               itemCount: dogBreeds.length,
               itemBuilder: (context, index) {
@@ -81,41 +80,37 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8), // Reduced padding
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: Text(
                       breed,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge, // Smaller font size
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 );
               },
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          // Image Section (now placed in the middle)
+          const SizedBox(height: 10),
           if (selectedBreedImage != null)
-            Image.asset(
-              selectedBreedImage!,
-              height: 250, // Increased image size
-              width: 250,
-              fit: BoxFit.cover,
+            Container(
+              padding: const EdgeInsets.all(10),
+              constraints: const BoxConstraints(
+                maxHeight:
+                    400, // I changed this to fit my screen. You might want
+                // to do the same for your vid.
+              ),
+              child: Image.asset(
+                selectedBreedImage!,
+                fit: BoxFit.contain,
+                width: double.infinity,
+              ),
             ),
-
-          const SizedBox(height: 20),
-
-          // Bark counter now at the bottom
           Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
